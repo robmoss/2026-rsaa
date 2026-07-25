@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
+
+    <title>Reproducible command-line workflows with asciinema-scripted</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/serif.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="dist/plugin/highlight/monokai.css" />
+
+    <!-- Custom theme settings -->
+    <link rel="stylesheet" href="extra/custom.css" />
+
+    <!-- Asciinema -->
+    <link rel="stylesheet" href="extra/asciinema-player.css" />
+    <link rel="stylesheet" href="extra/asciinema-theme-gimlb.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h3>Reproducible command-line workflows with<br/> asciinema-scripted</h3>
+          <p>Rob Moss</p>
+          <p><a href="https://rseaa.org/">Research Software Australia Asia Conference 2026</a></p>
+        </section>
+        <section>
+          <h3>Command-line workflows</h3>
+          <p>
+            A universal interface for modelling/simulation.
+          </p>
+          <ul>
+            <li>Often simpler to explain than GUIs</li>
+            <li>Convey core concepts that apply to GUIs</li>
+            <li>Relevant to cloud VMs, HPC, etc</li>
+          </ul>
+          <p>
+            Interactive training materials are useful, but<br/> text in videos can be blurry and cannot be copied.
+          </p>
+        </section>
+        <section>
+          <h3>Asciinema</h3>
+          <p>
+            A lightweight text-based tool for recording and sharing terminal sessions; <strong>copy and paste works!</strong>
+          </p>
+          <p>
+            <a href="https://asciinema.org/"><code>https://asciinema.org/</code></a>
+          </p>
+        </section>
+        <section>
+          <div id="demo" data-cast-file="git-editor-example.cast"></div>
+        </section>
+        <section>
+          Recording a terminal session in real-time doesn't necessarily yield the best teaching materials.
+
+          <p>
+            <a href="https://github.com/robmoss/asciinema-scripted">asciinema-scripted</a> lets you <strong>write a script</strong>:
+          </p>
+
+          <ul>
+            <li>Plan ahead rather than perform live!</li>
+            <li>Variable input speed with random delays</li>
+            <li>Defining markers relative to input events</li>
+            <li>Displaying comments in a "subtitle" bar</li>
+          </ul>
+        </section>
+        <section>
+          <div id="demo2" data-cast-file="demo_script.cast"></div>
+        </section>
+        <section>
+          <p>The demo script (YAML)</p>
+          <pre><code data-trim data-noescape class="language-yaml">
+actions:
+- action_id: Comment
+  comment: See what files are here
+- ls
+- action_id: Comment
+  comment: How large are these files?
+- action_id: Input
+  text: du -h *
+  pre_nl_delay: 1
+  post_nl_delay: 3
+- action_id: Marker
+  label: Sum disk usage of all files
+- action_id: Comment
+  comment: What is the total disk usage?
+- action_id: Input
+  text: du -c -h * | grep total
+  pre_nl_delay: 1
+  post_nl_delay: 3
+- action_id: Comment
+  comment: Goodbye
+- '# The end'
+- action_id: Marker
+  label: END
+- exit
+          </code></pre>
+        </section>
+        <section>
+          <p>
+            <a href="https://github.com/robmoss/asciinema-scripted">
+              https://github.com/robmoss/asciinema-scripted
+            </a>
+          </p>
+          <p>
+            <strong>Caveat:</strong> developed 2 years ago, now that I've showcased it I want to update and improve it &#x1F62C;
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="dist/plugin/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+          hash: true,
+
+          plugins: [RevealHighlight],
+      });
+    </script>
+    <script src="extra/asciinema-player.min.js"></script>
+    <script src="extra/wrapper.js"></script>
+  </body>
+</html>

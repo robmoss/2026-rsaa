@@ -1,0 +1,8 @@
+:root {
+  --r-link-color: #4242D1 !important;
+  --r-link-color-hover: #4242D1 !important;
+}
+
+.reveal a {
+    text-decoration: underline;
+}
